@@ -131,7 +131,7 @@ RUN set -eux; \
 
 WORKDIR /var/www/html/board/
 
-COPY phpbb/phpbb-install.yml phpbb-install.yml
+COPY phpbb-install.yml phpbb-install.yml
 
 RUN set -eux; \
     chmod 666 config.php; \
