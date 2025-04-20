@@ -24,15 +24,15 @@ services:
       - forum_db
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.website_http.rule=Host(`forum.flitpix.net`)"
-      - "traefik.http.routers.website_http.middlewares=redirect-https-website"
-      - "traefik.http.routers.website_http.entrypoints=web"
+      - "traefik.http.routers.forum_http.rule=Host(`forum.flitpix.net`)"
+      - "traefik.http.routers.forum_http.middlewares=redirect-https-forum"
+      - "traefik.http.routers.forum_http.entrypoints=web"
 
-      - "traefik.http.middlewares.redirect-https-website.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.redirect-https-forum.redirectscheme.scheme=https"
 
-      - "traefik.http.routers.website_https.rule=Host(`forum.flitpix.net`)"
-      - "traefik.http.routers.website_https.entrypoints=websecure"
-      - "traefik.http.routers.website_https.tls.certresolver=myresolver"
+      - "traefik.http.routers.forum_https.rule=Host(`forum.flitpix.net`)"
+      - "traefik.http.routers.forum_https.entrypoints=websecure"
+      - "traefik.http.routers.forum_https.tls.certresolver=myresolver"
 
 secrets:
   forum_db_password:
