@@ -1,0 +1,6 @@
+.vscode
+*.odt
+
+db_password.txt
+db_root_password.txt
+/build/forum/phpbb-install.yml

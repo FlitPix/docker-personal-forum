@@ -1,0 +1,45 @@
+services:
+  forum_db:
+    image: mariadb:11.7.2
+    container_name: forum_db
+    restart: always
+    environment:
+      MARIADB_DATABASE: forum
+      MARIADB_ROOT_PASSWORD_FILE: /run/secrets/forum_db_root_password
+      MARIADB_PASSWORD_FILE: /run/secrets/forum_db_password
+      MARIADB_USER: forum
+    volumes:
+      - forum_db_data:/var/lib/mysql
+    secrets:
+      - forum_db_password
+      - forum_db_root_password
+  forum:
+    build:
+      context: build/forum
+    container_name: forum
+    restart: always
+    volumes:
+      - forum_html:/var/www/html/
+    depends_on:
+      - forum_db
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.website_http.rule=Host(`forum.flitpix.net`)"
+      - "traefik.http.routers.website_http.middlewares=redirect-https-website"
+      - "traefik.http.routers.website_http.entrypoints=web"
+
+      - "traefik.http.middlewares.redirect-https-website.redirectscheme.scheme=https"
+
+      - "traefik.http.routers.website_https.rule=Host(`forum.flitpix.net`)"
+      - "traefik.http.routers.website_https.entrypoints=websecure"
+      - "traefik.http.routers.website_https.tls.certresolver=myresolver"
+
+secrets:
+  forum_db_password:
+    file: ./build/forum/db_password.txt
+  forum_db_root_password:
+    file: ./build/forum/db_root_password.txt
+
+volumes:
+  forum_db_data:
+  forum_html:
