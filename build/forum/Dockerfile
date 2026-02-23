@@ -27,7 +27,6 @@ RUN set -eux; \
         mysqli \
         gd \
     ; \
-    rm -r /tmp/pear; \
     \
     # Reset apt-mark's "manual" list so "purge --auto-remove" removes all build deps
     apt-mark auto '.*' > /dev/null; \
