@@ -11,6 +11,7 @@ RUN set -eux; \
     apt update; \
     apt install -y --no-install-recommends \
         unzip \
+        git \
         zlib1g-dev \
         libpng-dev \
     ; \
@@ -43,6 +44,8 @@ RUN set -eux; \
     rm -rf /var/lib/apt/lists/*
 
 COPY opcache.ini /usr/local/etc/php/conf.d/opcache.ini
+RUN mv /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini
+RUN echo "max_execution_time = 300" > /usr/local/etc/php/conf.d/php.ini
 
 ### CONFIGURE APACHE ###
 
